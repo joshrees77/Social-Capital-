@@ -4,7 +4,7 @@ This prototype visualizes concentrated liquidity ranges for Uniswap v4 pools. It
 
 - Select a token pair
 - Filter pools by name or fee tier
-- Inspect per-range liquidity breakdowns via bars and a table
+- Inspect per-range liquidity breakdowns on a single price-depth chart and a supporting table
 
 ## Running locally
 Because the page fetches a JSON file, open it with a local web server (serving the repository root):
