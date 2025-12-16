@@ -1,0 +1,54 @@
+[
+  {
+    "name": "ETH/USDC - Core - 0.05%",
+    "pair": "ETH/USDC",
+    "feeTier": "0.05%",
+    "baseSymbol": "ETH",
+    "totalLiquidity": 4250000,
+    "liquidityRanges": [
+      { "lower": -720, "upper": -320, "liquidity": 900000 },
+      { "lower": -320, "upper": 80, "liquidity": 1420000 },
+      { "lower": 80, "upper": 360, "liquidity": 1210000 },
+      { "lower": 360, "upper": 720, "liquidity": 720000 }
+    ]
+  },
+  {
+    "name": "ETH/USDC - Dynamic - 0.3%",
+    "pair": "ETH/USDC",
+    "feeTier": "0.3%",
+    "baseSymbol": "ETH",
+    "totalLiquidity": 3180000,
+    "liquidityRanges": [
+      { "lower": -840, "upper": -200, "liquidity": 1100000 },
+      { "lower": -200, "upper": 140, "liquidity": 980000 },
+      { "lower": 140, "upper": 520, "liquidity": 660000 },
+      { "lower": 520, "upper": 940, "liquidity": 440000 }
+    ]
+  },
+  {
+    "name": "ETH/USDC - Stable - 1%",
+    "pair": "ETH/USDC",
+    "feeTier": "1%",
+    "baseSymbol": "ETH",
+    "totalLiquidity": 1880000,
+    "liquidityRanges": [
+      { "lower": -600, "upper": -120, "liquidity": 620000 },
+      { "lower": -120, "upper": 160, "liquidity": 540000 },
+      { "lower": 160, "upper": 420, "liquidity": 360000 },
+      { "lower": 420, "upper": 820, "liquidity": 260000 }
+    ]
+  },
+  {
+    "name": "WBTC/ETH - Core - 0.05%",
+    "pair": "WBTC/ETH",
+    "feeTier": "0.05%",
+    "baseSymbol": "WBTC",
+    "totalLiquidity": 128000,
+    "liquidityRanges": [
+      { "lower": -1200, "upper": -400, "liquidity": 32000 },
+      { "lower": -400, "upper": 200, "liquidity": 46000 },
+      { "lower": 200, "upper": 620, "liquidity": 32000 },
+      { "lower": 620, "upper": 1000, "liquidity": 18000 }
+    ]
+  }
+]
