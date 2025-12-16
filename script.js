@@ -46,65 +46,28 @@ function buildRangeTable(ranges) {
   return table;
 }
 
-function buildRangeChart(ranges) {
-  const minBoundary = Math.min(...ranges.map((r) => r.lower));
-  const maxBoundary = Math.max(...ranges.map((r) => r.upper));
-  const maxLiquidity = Math.max(...ranges.map((r) => r.liquidity));
+function buildRangeBars(ranges, minBoundary, maxBoundary) {
+  const fragment = document.createDocumentFragment();
   const span = maxBoundary - minBoundary || 1;
-
-  const chart = document.createElement('div');
-  chart.className = 'stacked-range-chart';
-
-  const canvas = document.createElement('div');
-  canvas.className = 'chart-canvas';
-
-  const tooltip = document.createElement('div');
-  tooltip.className = 'chart-tooltip hidden';
 
   ranges.forEach((range) => {
     const bar = document.createElement('div');
-    bar.className = 'liquidity-bar';
-    bar.style.left = `${((range.lower - minBoundary) / span) * 100}%`;
-    bar.style.width = `${((range.upper - range.lower) / span) * 100}%`;
-    bar.style.height = `${(range.liquidity / maxLiquidity) * 100}%`;
-    bar.dataset.range = formatRange(range);
-    bar.dataset.share = range.share;
-    bar.dataset.liquidity = formatNumber(range.liquidity);
+    bar.className = 'range-bar';
 
-    bar.addEventListener('mouseenter', () => {
-      bar.classList.add('active');
-      tooltip.classList.remove('hidden');
-      tooltip.innerHTML = `
-        <div><strong>Range:</strong> ${bar.dataset.range}</div>
-        <div><strong>Liquidity:</strong> ${bar.dataset.liquidity}</div>
-        <div><strong>Share:</strong> ${bar.dataset.share}%</div>
-      `;
-    });
+    const barFill = document.createElement('div');
+    barFill.className = 'bar-fill';
+    barFill.style.left = `${((range.lower - minBoundary) / span) * 100}%`;
+    barFill.style.width = `${((range.upper - range.lower) / span) * 100}%`;
 
-    bar.addEventListener('mouseleave', () => {
-      bar.classList.remove('active');
-      tooltip.classList.add('hidden');
-    });
+    const label = document.createElement('div');
+    label.className = 'bar-label';
+    label.innerHTML = `<span>${formatRange(range)}</span><strong>${range.share}%</strong>`;
 
-    bar.addEventListener('mousemove', (event) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      tooltip.style.left = `${x}px`;
-    });
-
-    canvas.appendChild(bar);
+    bar.append(barFill, label);
+    fragment.appendChild(bar);
   });
 
-  const axis = document.createElement('div');
-  axis.className = 'x-axis';
-  axis.innerHTML = `
-    <span>${minBoundary}</span>
-    <span>Price</span>
-    <span>${maxBoundary}</span>
-  `;
-
-  chart.append(canvas, tooltip, axis);
-  return chart;
+  return fragment;
 }
 
 function renderPools(pools) {
@@ -121,13 +84,16 @@ function renderPools(pools) {
       pool.totalLiquidity
     )}`;
 
+    const minBoundary = Math.min(...pool.liquidityRanges.map((r) => r.lower));
+    const maxBoundary = Math.max(...pool.liquidityRanges.map((r) => r.upper));
+
     const rangesWithShare = pool.liquidityRanges.map((range) => ({
       ...range,
       share: ((range.liquidity / pool.totalLiquidity) * 100).toFixed(1),
     }));
 
     const chart = card.querySelector('.range-chart');
-    chart.appendChild(buildRangeChart(rangesWithShare));
+    chart.appendChild(buildRangeBars(rangesWithShare, minBoundary, maxBoundary));
 
     const tableContainer = card.querySelector('.range-table');
     tableContainer.appendChild(buildRangeTable(rangesWithShare));
